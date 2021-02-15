@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clark County GIS Portal</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<link rel="stylesheet" href="styles.css">
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="rangeslider.min.js"></script>
+	<script type="text/javascript" src="rangeslider.js"></script>
+</head>
+<body>
+	<div id="slider" class="slide-in">
+		<h2 style="
+		text-align: center;
+		font-family: Calibri;">
+		Advanced User Panel</h2>
+		<p style="font-family: Calibri; margin-left: 5px;"><b>Filter earthquakes by location:</b></p>
+		<p style="font-family: Calibri; margin-left: 5px;">
+			<img src="filter.png" style="width: 20px; margin-right: 3px; vertical-align:middle;">
+			<input id="filterByName" type="text" onkeyup="SearchEarthquakeByLocation()" style="vertical-align:middle;">
+		</p>
+		<hr>
+		<p style="font-family: Calibri; margin-left: 5px;"><b>Filter earthquakes by magnitude:</b></p>
+		<p style="font-family: Calibri; margin-left: 5px; vertical-align: middle;">
+			<img src="levels.png" style="width: 20px; margin-right: 3px; vertical-align:middle;">
+			<input id="magValue" type="range" min="0" max="6" step="0.2" value="3.2" onmouseup="filterByMagnitude()" style="vertical-align:middle;">
+			<b><span id="magInfo" style="font-family: Calibri; vertical-align:middle;">3.2</span></b>
+		</p>
+		<hr>
+		<p style="font-family: Calibri; margin-left: 5px;"><b>Filter Fire Stations by Battalion No.</b></p>
+		<p style="font-family: Calibri; margin-left: 5px;">
+			<img src="filter.png" style="width: 20px; margin-right: 3px; vertical-align:middle;">
+			<input id="filterByBattalion" type="text" onkeyup="filterByBattalion()" style="vertical-align:middle;">
+		</p>
+		<hr>
+		<p style="font-family: Calibri; margin-left: 5px;"><b>Zoom by ZIP Code value</b></p>
+		<p style="font-family: Calibri; margin-left: 5px;">
+			<img src="aim.png" style="width: 20px; margin-right: 3px; vertical-align:middle;">
+			<select id="zoomByZIP" style="vertical-align:middle;" onchange="zoomByZIP()"></select>
+		</p>
+		<hr>
+	</div>
+	<div class="overlay">
+		<h2 style="font-family: Calibri; font-size: 20px; margin: 15px; text-align: right;">ZIP Code and Fire Stations Map</h2>
+		<h3 style="font-family: Calibri; font-size: 15px; text-align: right; margin: 15px;"> <span style="vertical-align:middle;">Clark County, NV</span><img src="local.png" style="height: 16px; vertical-align:middle;"></h3>
+		<h2 style="font-family: Calibri; font-size: 20px; margin: 15px; text-align: right;">Earthquake Live Service</h2>
+		<h3 style="font-family: Calibri; font-size: 15px; text-align: right; margin: 15px;"> <span style="vertical-align:middle;"> World </span><img src="worldwide.png" style="height: 16px; vertical-align:middle;"></h3>
+		<p style="font-family: Calibri;"><b>Fire Stations:</b> <button type="button" onclick="hideIcons()">Toggle Layer</button></p>
+		<p style="font-family: Calibri;"><b>ZIP code areas:</b> <button type="button" onclick="hideAreas()">Toggle Layer</button></p>
+		<p style="font-family: Calibri;"><b>Advanced:</b> <button id="button1" type="button" onclick="showSlider()">Show</button></p>
+	</div>
+	<div id="mapid"></div>
+	<div class="footer">
+		<p>&copy Antoni Dziedziejko 2021 | Created with <i>Leaflet</i></p>
+		<p>Data sources: <i>City of Las Vegas GeoCommons</i>, <i>Clark County Gov. Website - Free GIS Data</i>, <i>USGS</i></p>
+		<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+		<hr>
+	</div>
+<script src="sclzip_p.geojson"></script>
+<script src="fireStations.geojson"></script>
+<script src=scripts.js></script>
+</body>
+</html>
