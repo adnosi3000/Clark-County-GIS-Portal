@@ -33,6 +33,13 @@ var posterunek = L.icon({
   popupAnchor: [0, -34],
 });
 
+var trzesienie = L.icon({
+  iconUrl: 'crack.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -34],
+});
+
 function hideIcons() {
   if(map.hasLayer(strazPozarna)) {
     map.removeLayer(strazPozarna);
@@ -72,8 +79,18 @@ myRequest.onload = function(){
   var earthquakes = JSON.parse(myRequest.responseText);
   window.earthquakes = L.geoJSON(earthquakes, {
     onEachFeature: function(feature, layer){
+      layer.setIcon(trzesienie);
       layer.bindPopup('<p><b>Earthquake location: </b>'+ feature.properties.place +'</p><p><b>Magnitude: </b>'+ feature.properties.mag +'</p>')
     }
+  }).addTo(map);
+  var heatMapPoints = [];
+  earthquakes.features.forEach(function(feature){
+    heatMapPoints.push([feature.geometry.coordinates[1], feature.geometry.coordinates[0], feature.properties.mag/6])
+  });
+  var heat = L.heatLayer(heatMapPoints, {
+    radius: 25,
+    minOpacity: 0.8,
+    gradient: {0.4: 'yellow', 0.85: 'orange', 1: 'red'}
   }).addTo(map);
 };
 myRequest.send();
