@@ -56,6 +56,14 @@ function hideAreas() {
   };
 }
 
+function hideEarthQuakes() {
+  if(map.hasLayer(earthquakes)) {
+    map.removeLayer(earthquakes);
+  } else {
+    earthquakes.addTo(map);
+  };
+};
+
 function showSlider(){
   if (document.getElementById('slider').style.marginLeft == "-325px"){
     document.getElementById('slider').style.marginLeft = "15px";
